@@ -40,59 +40,70 @@ class _LocationInputState extends State<LocationInput> {
   }
 
   Future<void> _selectOnMap() async {
+    final locData = await Location().getLocation();
     final selectedLocation = await Navigator.of(context).push<LatLng>(
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) => MapScreen(
           isSelected: true,
+          latitude: locData.latitude as double,
+          longitude: locData.longitude as double,
         ),
       ),
     );
     if (selectedLocation == null) {
       return;
     }
+    print("::::::::: test 1");
+    print(selectedLocation.latitude);
+    print(selectedLocation.longitude);
     _showPreview(selectedLocation.latitude, selectedLocation.longitude);
     // widget.onSelectPlace(selectedLocation.latitude, selectedLocation.longitude);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 170,
-          width: double.infinity,
-          alignment: Alignment.center,
-          decoration:
-              BoxDecoration(border: Border.all(width: 1, color: Colors.green)),
-          child: _previewImageUrl == null
-              ? const Text(
-                  'No Location Is Chosen...!',
-                  textAlign: TextAlign.center,
-                )
-              : Image.network(
-                  _previewImageUrl!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton.icon(
-              onPressed: _getCurrentLocation,
-              icon: const Icon(Icons.location_on),
-              // textColor: Theme.of(context).colorScheme.primary,
-              label: const Text('Current Location'),
-            ),
-            TextButton.icon(
-              onPressed: _selectOnMap,
-              icon: const Icon(Icons.map),
-              label: const Text('Select on Map'),
-            )
-          ],
-        )
-      ],
+    return Scaffold(
+      appBar: AppBar(
+
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 170,
+            width: double.infinity,
+            alignment: Alignment.center,
+            decoration:
+                BoxDecoration(border: Border.all(width: 1, color: Colors.green)),
+            child: _previewImageUrl == null
+                ? const Text(
+                    'No Location Is Chosen...!',
+                    textAlign: TextAlign.center,
+                  )
+                : Image.network(
+                    _previewImageUrl!,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton.icon(
+                onPressed: _getCurrentLocation,
+                icon: const Icon(Icons.location_on),
+                // textColor: Theme.of(context).colorScheme.primary,
+                label: const Text('Current Location'),
+              ),
+              TextButton.icon(
+                onPressed: _selectOnMap,
+                icon: const Icon(Icons.map),
+                label: const Text('Select on Map'),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

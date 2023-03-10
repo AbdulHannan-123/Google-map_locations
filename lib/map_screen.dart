@@ -15,12 +15,29 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => _MapScreenState();
 }
 
+
+
 class _MapScreenState extends State<MapScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+  _setthemarker();
+
+  }
+
+  void _setthemarker(){
+    _pickedLocation = LatLng(widget.latitude, widget.longitude,);
+  }
+
+
   LatLng? _pickedLocation;
 
   void _selectLocation(LatLng position) {
     setState(() {
       _pickedLocation = position;
+      print("000000000000000000000000000000000000");
+      print(_pickedLocation);
     });
   }
 
@@ -46,7 +63,7 @@ class _MapScreenState extends State<MapScreen> {
         initialCameraPosition: CameraPosition(
           target: LatLng(
             widget.latitude,
-            widget.longitude,
+            widget.longitude
           ),
           zoom: 16,
         ),
